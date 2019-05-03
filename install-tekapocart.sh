@@ -1,25 +1,23 @@
 #!/bin/sh
 
-while [[ $# -gt 0 ]]
-do
-    key="${1}"
-    case ${key} in
-    --shop-url)
-        DOMAIN="${2}"
-        shift
-        shift
-        ;;
-    --admin-mail)
-        ADMIN_MAIL="${2}"
-        shift
-        shift
-        ;;
-    *)
-        shift
-        ;;
+while getopts e:d: option
+    do
+    case "${option}"
+    in
+        d) DOMAIN=${OPTARG};;
+        e) ADMIN_MAIL=${OPTARG};;
     esac
-    shift
 done
+
+if [ -z "$DOMAIN" ]; then
+    echo "請輸入商店網址"
+    exit 1;
+fi
+
+if [ -z "$ADMIN_MAIL" ]; then
+    echo "請輸入你的信箱（後台登入帳號）"
+    exit 1;
+fi
 
 DB_RT_PASSWD=$(openssl rand -base64 16)
 DB_PASSWD=$(openssl rand -base64 16)
