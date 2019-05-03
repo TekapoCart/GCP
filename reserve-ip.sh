@@ -1,20 +1,17 @@
 #!/bin/sh
 
-while [[ $# -gt 0 ]]
-do
-    key="${1}"
-    case ${key} in
-    --shop-url)
-        DOMAIN="${2}"
-        shift
-        shift
-        ;;
-    *)
-        shift
-        ;;
+while getopts d: option
+    do
+    case "${option}"
+    in
+        d) DOMAIN=${OPTARG};;
     esac
-    shift
 done
+
+if [ -z "$DOMAIN" ]; then
+    echo "請輸入商店網址"
+    exit 1;
+fi
 
 REGION=asia-east1
 NAME=$(echo $DOMAIN-ip | tr . -)
