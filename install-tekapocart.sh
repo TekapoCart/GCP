@@ -26,10 +26,10 @@ DB_PASSWD=$(openssl rand -base64 16)
 
 REGION=asia-east1
 ZONE=asia-east1-c
-VM_NAME=$(echo $DOMAIN | tr . -)
+NAME=$(echo $DOMAIN | tr . -)
 REPO=asia.gcr.io/tekapocart/standalone
 
-gcloud compute instances create-with-container $VM_NAME \
+gcloud compute instances create-with-container $NAME \
     --boot-disk-size 10GB \
     --boot-disk-type pd-ssd \
     --container-image $REPO \
@@ -45,7 +45,7 @@ gcloud compute instances create-with-container $VM_NAME \
     --tags http-server,https-server \
     --zone $ZONE
 
-gcloud beta compute resource-policies create-snapshot-schedule $VM_NAME-snapshot-schedule \
+gcloud beta compute resource-policies create-snapshot-schedule $NAME-snapshot-schedule \
     --max-retention-days 14 \
     --start-time 14:00 \
     --hourly-schedule 12 \
@@ -53,6 +53,6 @@ gcloud beta compute resource-policies create-snapshot-schedule $VM_NAME-snapshot
     --region $REGION \
     --storage-location asia
 
-gcloud beta compute disks add-resource-policies $VM_NAME \
+gcloud beta compute disks add-resource-policies $NAME \
     --resource-policies $VM_NAME-snapshot-schedule \
     --zone $ZONE
