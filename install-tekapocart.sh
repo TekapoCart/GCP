@@ -26,8 +26,9 @@ DB_PASSWD=$(openssl rand -base64 16)
 
 REGION=asia-east1
 ZONE=asia-east1-c
-NAME=$(echo $DOMAIN | tr . -)
-REPO=asia.gcr.io/tekapocart/standalone
+CONTAINER=standalone
+NAME=$(echo $DOMAIN-$CONTAINER | tr . -)
+REPO=asia.gcr.io/tekapocart/$CONTAINER
 
 gcloud compute instances create-with-container $NAME \
     --boot-disk-size 10GB \
@@ -54,5 +55,5 @@ gcloud beta compute resource-policies create-snapshot-schedule $NAME-snapshot-sc
     --storage-location asia
 
 gcloud beta compute disks add-resource-policies $NAME \
-    --resource-policies $VM_NAME-snapshot-schedule \
+    --resource-policies $NAME-snapshot-schedule \
     --zone $ZONE
