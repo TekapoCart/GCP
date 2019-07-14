@@ -44,7 +44,7 @@ gcloud compute instances create-with-container $NAME \
     --tags http-server,https-server \
     --zone $ZONE
 
-gcloud beta compute resource-policies create-snapshot-schedule $NAME-snapshot-schedule \
+gcloud beta compute resource-policies create snapshot-schedule $NAME-snapshot-schedule \
     --max-retention-days 14 \
     --start-time 14:00 \
     --hourly-schedule 12 \
