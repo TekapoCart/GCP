@@ -11,17 +11,17 @@ while getopts d:a:e: option
 done
 
 if [ -z "$DOMAIN" ]; then
-    echo "請輸入商店網址 例如：sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com -a xxx.xxx.xxx"
+    echo "請輸入商店網址 範例：sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com -a xxx.xxx.xxx"
     exit 1;
 fi
 
 if [ -z "$EMAIL" ]; then
-    echo "請輸入你的信箱（後台登入帳號） 例如：sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com -a xxx.xxx.xxx"
+    echo "請輸入你的信箱（後台登入帳號） 範例：sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com -a xxx.xxx.xxx"
     exit 1;
 fi
 
 if [ -z "$ADDRESS" ]; then
-    echo "請輸入商店 IP 位址  例如：sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com -a xxx.xxx.xxx"
+    echo "請輸入商店 IP 位址  範例：sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com -a xxx.xxx.xxx"
     exit 1;
 fi
 
@@ -34,6 +34,19 @@ CONTAINER=standalone
 NAME=$(echo $DOMAIN-$CONTAINER | tr . -)
 REPO=asia.gcr.io/tekapocart/$CONTAINER
 
+
+# create http, https firewall rules
+CHECK_HTTP=$(gcloud compute firewall-rules list | grep default-allow-http)
+if [ ${#CHECK_HTTP} -eq 0 ]; then	
+    gcloud compute firewall-rules create default-allow-http --allow tcp:80
+fi
+
+CHECK_HTTPS=$(gcloud compute firewall-rules list | grep default-allow-https)
+if [ ${#CHECK_HTTPS} -eq 0 ]; then	
+    gcloud compute firewall-rules create default-allow-https --allow tcp:443
+fi
+
+# create instance
 gcloud compute instances create-with-container $NAME \
     --boot-disk-size 10GB \
     --boot-disk-type pd-ssd \
@@ -50,6 +63,11 @@ gcloud compute instances create-with-container $NAME \
     --tags http-server,https-server \
     --zone $ZONE \
     --address $ADDRESS
+
+CHECK_INSTANCE=$(gcloud compute instance list | grep $NAME)
+if [ ${#CHECK_INSTANCE} -eq 0 ]; then	
+    exit
+fi
 
 gcloud beta compute resource-policies create snapshot-schedule $NAME-snapshot-schedule \
     --max-retention-days 14 \
