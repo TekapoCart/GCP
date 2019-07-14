@@ -5,17 +5,23 @@ while getopts e:d: option
     case "${option}"
     in
         d) DOMAIN=${OPTARG};;
-        e) ADMIN_MAIL=${OPTARG};;
+        a) ADDRESS=${OPTARG};;
+        e) EMAIL=${OPTARG};;
     esac
 done
 
 if [ -z "$DOMAIN" ]; then
-    echo "請輸入商店網址"
+    echo "請輸入商店網址 -d www.yoursite.com"
     exit 1;
 fi
 
-if [ -z "$ADMIN_MAIL" ]; then
-    echo "請輸入你的信箱（後台登入帳號）"
+if [ -z "$EMAIL" ]; then
+    echo "請輸入你的信箱（後台登入帳號） -e admin@example.com"
+    exit 1;
+fi
+
+if [ -z "$ADDRESS" ]; then
+    echo "請輸入商店 IP 位址 -a xxx.xxx.xxx.xxx"
     exit 1;
 fi
 
@@ -33,7 +39,7 @@ gcloud compute instances create-with-container $NAME \
     --boot-disk-type pd-ssd \
     --container-image $REPO \
     --container-env TC_DOMAIN=$DOMAIN \
-    --container-env ADMIN_MAIL=$ADMIN_MAIL \
+    --container-env ADMIN_MAIL=$EMAIL \
     --container-env DB_PASSWD=$DB_PASSWD \
     --container-env DB_RT_PASSWD=$DB_RT_PASSWD \
     --container-mount-host-path mount-path=/var/www,host-path=/var/www \
@@ -42,7 +48,8 @@ gcloud compute instances create-with-container $NAME \
     --container-restart-policy never \
     --machine-type g1-small  \
     --tags http-server,https-server \
-    --zone $ZONE
+    --zone $ZONE \
+    --address $ADDRESS
 
 gcloud beta compute resource-policies create snapshot-schedule $NAME-snapshot-schedule \
     --max-retention-days 14 \
