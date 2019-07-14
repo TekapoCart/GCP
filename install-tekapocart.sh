@@ -11,17 +11,17 @@ while getopts d:a:e: option
 done
 
 if [ -z "$DOMAIN" ]; then
-    echo "範例：sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com -a xxx.xxx.xxx"
+    echo "範例：sh install-tekapocart.sh -d www.yoursite.com -a xxx.xxx.xxx -e admin@example.com"
     exit 1;
 fi
 
 if [ -z "$EMAIL" ]; then
-    echo "範例：sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com -a xxx.xxx.xxx"
+    echo "範例：sh install-tekapocart.sh -d www.yoursite.com -a xxx.xxx.xxx -e admin@example.com"
     exit 1;
 fi
 
 if [ -z "$ADDRESS" ]; then
-    echo "範例：sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com -a xxx.xxx.xxx"
+    echo "範例：sh install-tekapocart.sh -d www.yoursite.com -a xxx.xxx.xxx -e admin@example.com"
     exit 1;
 fi
 
