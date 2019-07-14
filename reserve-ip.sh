@@ -24,5 +24,5 @@ fi
 
 VM_IP=$(echo $CHECK_IP | awk '{print $2;}')
 echo $VM_IP
-echo "請將上方 IP 設定至 DNS，再執行下一步"
+echo "請將上方 IP 設定至 DNS，再執行下一步："
 echo "sh install-tekapocart.sh -d $DOMAIN -a $VM_IP -e 你的信箱（後台登入帳號）"
