@@ -39,10 +39,6 @@ REPO=asia.gcr.io/tekapocart/$CONTAINER
 CHECK_HTTP=$(gcloud compute firewall-rules list | grep default-allow-http)
 if [ ${#CHECK_HTTP} -eq 0 ]; then	
     gcloud compute firewall-rules create default-allow-http --allow tcp:80
-fi
-
-CHECK_HTTPS=$(gcloud compute firewall-rules list | grep default-allow-https)
-if [ ${#CHECK_HTTPS} -eq 0 ]; then	
     gcloud compute firewall-rules create default-allow-https --allow tcp:443
 fi
 
@@ -64,7 +60,7 @@ gcloud compute instances create-with-container $NAME \
     --zone $ZONE \
     --address $ADDRESS
 
-CHECK_INSTANCE=$(gcloud compute instance list | grep $NAME)
+CHECK_INSTANCE=$(gcloud compute instances list | grep $NAME)
 if [ ${#CHECK_INSTANCE} -eq 0 ]; then	
     exit
 fi
