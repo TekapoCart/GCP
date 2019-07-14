@@ -9,7 +9,7 @@ while getopts d: option
 done
 
 if [ -z "$DOMAIN" ]; then
-    echo "請輸入商店網址 例如：www.yoursite.com"
+    echo "請輸入商店網址 例如：sh reserve-ip.sh -d www.yoursite.com"
     exit 1;
 fi
 
