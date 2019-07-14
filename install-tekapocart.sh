@@ -11,17 +11,17 @@ while getopts e:d: option
 done
 
 if [ -z "$DOMAIN" ]; then
-    echo "請輸入商店網址 -d www.yoursite.com"
+    echo "請輸入商店網址 例如：sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com -a xxx.xxx.xxx"
     exit 1;
 fi
 
 if [ -z "$EMAIL" ]; then
-    echo "請輸入你的信箱（後台登入帳號） -e admin@example.com"
+    echo "請輸入你的信箱（後台登入帳號） 例如：sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com -a xxx.xxx.xxx"
     exit 1;
 fi
 
 if [ -z "$ADDRESS" ]; then
-    echo "請輸入商店 IP 位址 -a xxx.xxx.xxx.xxx"
+    echo "請輸入商店 IP 位址  例如：sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com -a xxx.xxx.xxx"
     exit 1;
 fi
 
