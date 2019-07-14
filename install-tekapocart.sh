@@ -25,8 +25,8 @@ if [ -z "$ADDRESS" ]; then
     exit 1;
 fi
 
-DB_RT_PASSWD=$(openssl rand -base64 16)
-DB_PASSWD=$(openssl rand -base64 16)
+DB_RT_PASSWD=$(openssl rand -base64 16 | tr -d "=+/")
+DB_PASSWD=$(openssl rand -base64 16 | tr -d "=+/")
 
 REGION=asia-east1
 ZONE=asia-east1-c
