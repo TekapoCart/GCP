@@ -22,5 +22,5 @@ if [ ${#CHECK_IP} -eq 0 ]; then
 	CHECK_IP=$(gcloud compute addresses list | grep $NAME)
 fi
 
-VM_IP=$(echo $CHECK_IP | awk '{print $3;}')
+VM_IP=$(echo $CHECK_IP | awk '{print $2;}')
 echo $VM_IP
