@@ -9,7 +9,8 @@ while getopts d: option
 done
 
 if [ -z "$DOMAIN" ]; then
-    echo "請輸入商店網址 例如：sh reserve-ip.sh -d www.yoursite.com"
+    echo "sh reserve-ip.sh -d www.yoursite.com"
+    echo "請輸入商店網址"
     exit 1;
 fi
 
@@ -24,5 +25,3 @@ fi
 
 VM_IP=$(echo $CHECK_IP | awk '{print $2;}')
 echo $VM_IP
-echo "請將上方 IP 設定至 DNS，再執行下一步："
-echo "sh install-tekapocart.sh -d $DOMAIN -a $VM_IP -e 你的信箱（後台登入帳號）"
