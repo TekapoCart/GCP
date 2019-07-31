@@ -9,7 +9,7 @@ while getopts d:e: option
     esac
 done
 
-if [ -z "$ADDRESS" ]; then
+if [ -z "$IP" ]; then
     echo "IP=123.123.123.123 sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com"
     echo "請輸入 IP"
     exit 1;
@@ -60,7 +60,7 @@ gcloud compute instances create-with-container $NAME \
     --machine-type g1-small  \
     --tags http-server,https-server \
     --zone $ZONE \
-    --address $ADDRESS
+    --address $IP
 
 CHECK_INSTANCE=$(gcloud compute instances list | grep $NAME)
 if [ ${#CHECK_INSTANCE} -eq 0 ]; then	
