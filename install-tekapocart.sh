@@ -1,27 +1,29 @@
 #!/bin/sh
 
-while getopts d:a:e: option
+while getopts d:e: option
     do
     case "${option}"
     in
         d) DOMAIN=${OPTARG};;
-        a) ADDRESS=${OPTARG};;
         e) EMAIL=${OPTARG};;
     esac
 done
 
+if [ -z "$ADDRESS" ]; then
+    echo "IP=123.123.123.123 sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com"
+    echo "請輸入 IP"
+    exit 1;
+fi
+
 if [ -z "$DOMAIN" ]; then
-    echo "範例：sh install-tekapocart.sh -d www.yoursite.com -a xxx.xxx.xxx -e admin@example.com"
+    echo "sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com"
+    echo "請輸入商店網址"
     exit 1;
 fi
 
 if [ -z "$EMAIL" ]; then
-    echo "範例：sh install-tekapocart.sh -d www.yoursite.com -a xxx.xxx.xxx -e admin@example.com"
-    exit 1;
-fi
-
-if [ -z "$ADDRESS" ]; then
-    echo "範例：sh install-tekapocart.sh -d www.yoursite.com -a xxx.xxx.xxx -e admin@example.com"
+    echo "sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com"
+    echo "請輸入 E-Mail"
     exit 1;
 fi
 
@@ -44,7 +46,7 @@ fi
 
 # create instance
 gcloud compute instances create-with-container $NAME \
-    --boot-disk-size 10GB \
+    --boot-disk-size 15GB \
     --boot-disk-type pd-ssd \
     --container-image $REPO \
     --container-env TC_DOMAIN=$DOMAIN \
@@ -65,6 +67,7 @@ if [ ${#CHECK_INSTANCE} -eq 0 ]; then
     exit
 fi
 
+# create snapshot
 gcloud beta compute resource-policies create snapshot-schedule $NAME-snapshot-schedule \
     --max-retention-days 14 \
     --start-time 14:00 \
