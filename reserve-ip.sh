@@ -24,4 +24,8 @@ if [ ${#CHECK_IP} -eq 0 ]; then
 fi
 
 VM_IP=$(echo $CHECK_IP | awk '{print $2;}')
+
+ROOT=$(dirname "${BASH_SOURCE[0]}")
+echo "$VM_IP" > "${ROOT}"/.ip
+
 echo $VM_IP
