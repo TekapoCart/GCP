@@ -1,11 +1,12 @@
 #!/bin/sh
 
-while getopts d:e:x:y:z option
+while getopts d:e:w:x:y:z option
     do
     case "${option}"
     in
         d) DOMAIN=${OPTARG};;
         e) EMAIL=${OPTARG};;
+        w) SUITE=${OPTARG};;
         x) DOMAIN_2=${OPTARG};;
         y) DOMAIN_3=${OPTARG};; 
         z) DOMAIN_4=${OPTARG};;        
@@ -55,7 +56,7 @@ gcloud compute instances create-with-container $NAME \
     --boot-disk-size 15GB \
     --boot-disk-type pd-ssd \
     --container-image $REPO \
-    --container-env TC_ENABLE_SUITE=1 \
+    --container-env TC_ENABLE_SUITE=$SUITE \
     --container-env TC_DOMAIN=$DOMAIN \
     --container-env TC_DOMAIN_2=$DOMAIN_2 \
     --container-env TC_DOMAIN_3=$DOMAIN_3 \
