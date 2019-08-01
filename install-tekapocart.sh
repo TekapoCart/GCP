@@ -13,8 +13,7 @@ while getopts d:e:w:x:y:z option
     esac
 done
 
-ROOT=$(dirname "${BASH_SOURCE[0]}")
-IP=$(cat "${ROOT}"/.ip)
+IP=$(cat .ip)
 
 if [ -z "$IP" ]; then
     echo "IP=123.123.123.123 sh install-tekapocart.sh -d www.yoursite.com -e admin@example.com"
