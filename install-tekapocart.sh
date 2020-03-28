@@ -38,7 +38,7 @@ DB_PASSWD=$(openssl rand -base64 29 | tr -d "=+/" | cut -c1-16)
 
 REGION=asia-east1
 ZONE=asia-east1-c
-CONTAINER=standalone
+CONTAINER=standalone:1.0.3
 NAME=$(echo $DOMAIN-$CONTAINER | tr . -)
 REPO=asia.gcr.io/tekapocart/$CONTAINER
 
