@@ -68,7 +68,6 @@ gcloud compute instances create-with-container $NAME \
     --container-mount-host-path mount-path=/var/db,host-path=/var/db \
     --container-restart-policy never \
     --machine-type g1-small  \
-    --metadata enable-oslogin=true  \
     --tags http-server,https-server \
     --zone $ZONE \
     --address $IP
