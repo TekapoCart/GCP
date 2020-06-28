@@ -63,37 +63,36 @@ ADMIN_MAIL=$(curl http://metadata.google.internal/computeMetadata/v1/instance/at
 DB_PASSWD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/DB_PASSWD -H "Metadata-Flavor: Google")
 DB_RT_PASSWD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/DB_RT_PASSWD -H "Metadata-Flavor: Google")
 
-cd ~
-
-if [ ! -d "certs" ]; then
+if [ ! -d "/etc/letsencrypt" ]; then
   mkdir certs
-# docker run --rm  -v ~/certs:/etc/letsencrypt -p 80:80 -ti certbot/certbot certonly --standalone --email $ADMIN_MAIL --agree-tos --preferred-challenges http -d $TC_DOMAIN
+# docker run --rm  -v /etc/letsencrypt:/etc/letsencrypt -p 80:80 -ti certbot/certbot certonly --standalone --email $ADMIN_MAIL --agree-tos --preferred-challenges http -d $TC_DOMAIN
 fi
 
-if [ ! -d "tekapo" ]; then
-  git clone $REPO tekapo
-  mkdir -p ~/tekapo/volumes/html
-  sudo chown 1001:1001 ~/tekapo/volumes/html
-  sed -ie "s/TC_DOMAIN=ToBeDefined/TC_DOMAIN=$TC_DOMAIN/g" ~/tekapo/.env
-  sed -ie "s/ADMIN_MAIL=ToBeDefined/ADMIN_MAIL=$ADMIN_MAIL/g" ~/tekapo/.env
-  sed -ie "s/DB_PASSWD=ToBeDefined/DB_PASSWD=$DB_PASSWD/g" ~/tekapo/.env
-  sed -ie "s/DB_RT_PASSWD=ToBeDefined/DB_RT_PASSWD=$DB_RT_PASSWD/g" ~/tekapo/.env
+if [ ! -d "/var/tekapo" ]; then
+  git clone $REPO /var/tekapo
+  mkdir -p /var/tekapo/volumes/html
+  sudo chown 1001:1001 /var/tekapo/volumes/html
+  sed -ie "s/TC_DOMAIN=ToBeDefined/TC_DOMAIN=$TC_DOMAIN/g" /var/tekapo/.env
+  sed -ie "s/ADMIN_MAIL=ToBeDefined/ADMIN_MAIL=$ADMIN_MAIL/g" /var/tekapo/.env
+  sed -ie "s/DB_PASSWD=ToBeDefined/DB_PASSWD=$DB_PASSWD/g" /var/tekapo/.env
+  sed -ie "s/DB_RT_PASSWD=ToBeDefined/DB_RT_PASSWD=$DB_RT_PASSWD/g" /var/tekapo/.env
 fi
 
-cd ~/tekapo
+cd /var/tekapo
 docker run docker/compose:latest version
 docker run --rm \
 -v /var/run/docker.sock:/var/run/docker.sock \
 -v "$PWD:$PWD" \
 -w="$PWD" \
 docker/compose:latest pull
+
 # docker run --rm \
 #    -v /var/run/docker.sock:/var/run/docker.sock \
 #    -v "$PWD:$PWD" \
 #    -w="$PWD" \
 #    docker/compose:latest up',\
 shutdown-script='#! /bin/bash
-cd ~/tekapo
+cd /var/tekapo
 docker run --rm \
 -v /var/run/docker.sock:/var/run/docker.sock \
 -v "$PWD:$PWD" \
