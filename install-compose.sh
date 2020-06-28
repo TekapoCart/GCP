@@ -50,7 +50,7 @@ fi
 gcloud compute instances create $NAME  \
 --boot-disk-size 10GB  \
 --boot-disk-type pd-ssd  \
---image-family os-stable  \
+--image-family cos-stable  \
 --image-project cos-cloud  \
 --machine-type g1-small  \
 --tags http-server,https-server  \
