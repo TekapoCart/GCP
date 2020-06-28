@@ -9,7 +9,9 @@ while getopts d:e option
     esac
 done
 
-IP=$(cat .ip)
+if [ -z "$IP" ]; then
+    IP=$(cat .ip)
+fi
 
 if [ -z "$IP" ]; then
     echo "IP=123.123.123.123 sh install-compose.sh -d www.yoursite.com -e admin@example.com"
