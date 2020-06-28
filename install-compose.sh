@@ -62,7 +62,7 @@ ADMIN_MAIL=$(curl http://metadata.google.internal/computeMetadata/v1/instance/at
 DB_PASSWD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/DB_PASSWD -H "Metadata-Flavor: Google")
 DB_RT_PASSWD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/DB_RT_PASSWD -H "Metadata-Flavor: Google")
 
-if [ ! -d "/etc/letsencrypt/live/$TC_DOMAIN" ]; then
+if [ ! -d "/etc/letsencrypt/live" ]; then
   docker run --rm  -v /etc/letsencrypt:/etc/letsencrypt -p 80:80 -ti certbot/certbot certonly --standalone --email $ADMIN_MAIL --agree-tos --preferred-challenges http -d $TC_DOMAIN
 fi
 
@@ -77,8 +77,9 @@ fi
 
 if [ ! -d "/var/volumes" ]; then
   mkdir -p /var/volumes/html
-  sudo chown 1001:1001 /var/volumes/html
 fi
+
+sudo chown -R 1001:1001 /var/volumes/html
 
 cd /var/tekapo
 docker run docker/compose:latest version
