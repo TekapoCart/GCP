@@ -61,9 +61,10 @@ TC_DOMAIN=$(curl http://metadata.google.internal/computeMetadata/v1/instance/att
 ADMIN_MAIL=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/ADMIN_MAIL -H "Metadata-Flavor: Google")
 DB_PASSWD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/DB_PASSWD -H "Metadata-Flavor: Google")
 DB_RT_PASSWD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/DB_RT_PASSWD -H "Metadata-Flavor: Google")
+export TC_DOMAIN
 
-if [ ! -d "/var/letsencrypt/live/$TC_DOMAIN" ]; then
-  docker run --rm  -v /var/letsencrypt:/etc/letsencrypt -p 80:80 -ti certbot/certbot certonly --standalone --email $ADMIN_MAIL --agree-tos --preferred-challenges http -d $TC_DOMAIN
+if [ ! -d "/etc/letsencrypt/live/$TC_DOMAIN" ]; then
+  docker run --rm  -v /etc/letsencrypt:/etc/letsencrypt -p 80:80 -ti certbot/certbot certonly --standalone --email $ADMIN_MAIL --agree-tos --preferred-challenges http -d $TC_DOMAIN
 fi
 
 if [ ! -d "/var/tekapo" ]; then
@@ -78,22 +79,18 @@ fi
 if [ ! -d "/var/volumes" ]; then
   mkdir -p /var/volumes/html
 fi
-
 sudo chown -R 1001:1001 /var/volumes/html
 
-cd /var/tekapo
-docker run docker/compose:latest version
-docker run --rm \
+echo alias docker-compose="'"'docker run --rm \
 -v /var/run/docker.sock:/var/run/docker.sock \
 -v "$PWD:$PWD" \
 -w="$PWD" \
-docker/compose:latest pull
+docker/compose:latest'"'" >> ~/.bashrc
+source ~/.bashrc    
 
-docker run --rm \
--v /var/run/docker.sock:/var/run/docker.sock \
--v "$PWD:$PWD" \
--w="$PWD" \
-docker/compose:latest up',\
+cd /var/tekapo
+docker-compose pull
+docker-compose up',\
 shutdown-script='#! /bin/bash
 cd /var/tekapo
 docker run --rm \
