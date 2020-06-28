@@ -81,16 +81,21 @@ if [ ! -d "/var/volumes" ]; then
 fi
 sudo chown -R 1001:1001 /var/volumes/html
 
-echo alias docker-compose="'"'docker run --rm \
--v /var/run/docker.sock:/var/run/docker.sock \
--v "$PWD:$PWD" \
--w="$PWD" \
-docker/compose:latest'"'" >> ~/.bashrc
-source ~/.bashrc    
-
 cd /var/tekapo
-docker-compose pull
-docker-compose up',\
+docker run --rm \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v "$PWD:$PWD" \
+    -w="$PWD" \
+    docker/compose:latest pull
+docker run --rm \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v "$PWD:$PWD" \
+    -w="$PWD" \
+    docker/compose:latest up',\
 shutdown-script='#! /bin/bash
 cd /var/tekapo
-docker-compose down'
+docker run --rm \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v "$PWD:$PWD" \
+    -w="$PWD" \
+    docker/compose:latest down'
