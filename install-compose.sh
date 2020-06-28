@@ -69,6 +69,7 @@ if [ ! -d "/etc/letsencrypt" ]; then
 fi
 
 if [ ! -d "/var/tekapo" ]; then
+  mkdir /var/tekapo
   git clone $REPO /var/tekapo
   mkdir -p /var/tekapo/volumes/html
   sudo chown 1001:1001 /var/tekapo/volumes/html
