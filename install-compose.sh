@@ -73,8 +73,8 @@ fi
 
 if [ ! -d "tekapo" ]; then
   git clone $REPO tekapo
-  mkdir -p tekapo/volumes/html
-  sudo chown 1001:1001 tekapo/volumes/html
+  mkdir -p ~/tekapo/volumes/html
+  sudo chown 1001:1001 ~/tekapo/volumes/html
   sed -ie "s/TC_DOMAIN=ToBeDefined/TC_DOMAIN=$TC_DOMAIN/g" ~/tekapo/.env
   sed -ie "s/ADMIN_MAIL=ToBeDefined/ADMIN_MAIL=$ADMIN_MAIL/g" ~/tekapo/.env
   sed -ie "s/DB_PASSWD=ToBeDefined/DB_PASSWD=$DB_PASSWD/g" ~/tekapo/.env
