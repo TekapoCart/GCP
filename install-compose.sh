@@ -56,9 +56,8 @@ gcloud compute instances create $NAME  \
 --tags http-server,https-server  \
 --zone $ZONE  \
 --address $IP  \
---metadata TC_DOMAIN=$DOMAIN,ADMIN_MAIL=$EMAIL,DB_PASSWD=$DB_PASSWD,DB_RT_PASSWD=$DB_RT_PASSWD  \
---metadata startup-script='#! /bin/bash
-
+--metadata TC_DOMAIN=$DOMAIN,ADMIN_MAIL=$EMAIL,DB_PASSWD=$DB_PASSWD,DB_RT_PASSWD=$DB_RT_PASSWD,\
+startup-script='#! /bin/bash
 TC_DOMAIN=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/TC_DOMAIN -H "Metadata-Flavor: Google")
 ADMIN_MAIL=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/ADMIN_MAIL -H "Metadata-Flavor: Google")
 DB_PASSWD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/DB_PASSWD -H "Metadata-Flavor: Google")
@@ -92,8 +91,8 @@ docker run --rm \
 #    -v /var/run/docker.sock:/var/run/docker.sock \
 #    -v "$PWD:$PWD" \
 #    -w="$PWD" \
-#    docker/compose:latest up'  \
---metadata shutdown-script='#! /bin/bash
+#    docker/compose:latest up',\
+shutdown-script='#! /bin/bash
 cd ~/tekapo
 docker run --rm \
     -v /var/run/docker.sock:/var/run/docker.sock \
