@@ -77,8 +77,8 @@ fi
 
 if [ ! -d "/var/volumes" ]; then
   mkdir -p /var/volumes/html
+  sudo chown -R 1001:1001 /var/volumes/html
 fi
-sudo chown -R 1001:1001 /var/volumes/html
 
 cd /var/tekapo
 docker run --rm \
