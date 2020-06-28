@@ -47,16 +47,16 @@ if [ ${#CHECK_HTTP} -eq 0 ]; then
 fi
 
 # create instance
-gcloud compute instances create $NAME
---boot-disk-size 10GB
---boot-disk-type pd-ssd
---image-family os-stable
---image-project cos-cloud
---machine-type g1-small
---tags http-server,https-server
---zone $ZONE
---address $IP
---metadata TC_DOMAIN=$DOMAIN,ADMIN_MAIL=$EMAIL,DB_PASSWD=$DB_PASSWD,DB_RT_PASSWD=$DB_RT_PASSWD
+gcloud compute instances create $NAME  \
+--boot-disk-size 10GB  \
+--boot-disk-type pd-ssd  \
+--image-family os-stable  \
+--image-project cos-cloud  \
+--machine-type g1-small  \
+--tags http-server,https-server  \
+--zone $ZONE  \
+--address $IP  \
+--metadata TC_DOMAIN=$DOMAIN,ADMIN_MAIL=$EMAIL,DB_PASSWD=$DB_PASSWD,DB_RT_PASSWD=$DB_RT_PASSWD  \
 --metadata startup-script='#! /bin/bash
 
 TC_DOMAIN=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/TC_DOMAIN -H "Metadata-Flavor: Google")
@@ -92,7 +92,7 @@ docker run --rm \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v "$PWD:$PWD" \
     -w="$PWD" \
-    docker/compose:latest up'
+    docker/compose:latest up'  \
 --metadata shutdown-script='#! /bin/bash
 cd ~/tekapo
 docker run --rm \
