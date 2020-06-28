@@ -83,10 +83,10 @@ fi
 cd ~/tekapo
 docker run docker/compose:latest version
 docker run --rm \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v "$PWD:$PWD" \
-    -w="$PWD" \
-    docker/compose:latest pull
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v "$PWD:$PWD" \
+-w="$PWD" \
+docker/compose:latest pull
 # docker run --rm \
 #    -v /var/run/docker.sock:/var/run/docker.sock \
 #    -v "$PWD:$PWD" \
@@ -95,7 +95,7 @@ docker run --rm \
 shutdown-script='#! /bin/bash
 cd ~/tekapo
 docker run --rm \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v "$PWD:$PWD" \
-    -w="$PWD" \
-    docker/compose:latest down'
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v "$PWD:$PWD" \
+-w="$PWD" \
+docker/compose:latest down'
