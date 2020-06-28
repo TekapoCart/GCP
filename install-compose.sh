@@ -68,7 +68,7 @@ cd ~
 
 if [ ! -d "certs" ]; then
   mkdir certs
-  docker run --rm  -v ~/certs:/etc/letsencrypt -p 80:80 -ti certbot/certbot certonly --standalone --email $ADMIN_MAIL --agree-tos --preferred-challenges http -d $TC_DOMAIN
+# docker run --rm  -v ~/certs:/etc/letsencrypt -p 80:80 -ti certbot/certbot certonly --standalone --email $ADMIN_MAIL --agree-tos --preferred-challenges http -d $TC_DOMAIN
 fi
 
 if [ ! -d "tekapo" ]; then
@@ -88,11 +88,11 @@ docker run --rm \
     -v "$PWD:$PWD" \
     -w="$PWD" \
     docker/compose:latest pull
-docker run --rm \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v "$PWD:$PWD" \
-    -w="$PWD" \
-    docker/compose:latest up'  \
+# docker run --rm \
+#    -v /var/run/docker.sock:/var/run/docker.sock \
+#    -v "$PWD:$PWD" \
+#    -w="$PWD" \
+#    docker/compose:latest up'  \
 --metadata shutdown-script='#! /bin/bash
 cd ~/tekapo
 docker run --rm \
