@@ -64,7 +64,7 @@ DB_PASSWD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/att
 DB_RT_PASSWD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/DB_RT_PASSWD -H "Metadata-Flavor: Google")
 
 if [ ! -d "/etc/letsencrypt" ]; then
-  mkdir certs
+  mkdir /etc/letsencrypt
 # docker run --rm  -v /etc/letsencrypt:/etc/letsencrypt -p 80:80 -ti certbot/certbot certonly --standalone --email $ADMIN_MAIL --agree-tos --preferred-challenges http -d $TC_DOMAIN
 fi
 
