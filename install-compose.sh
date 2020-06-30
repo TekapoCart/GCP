@@ -65,7 +65,7 @@ DB_RT_PASSWD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/
 if [ ! -d "/var/letsencrypt/live/$TC_DOMAIN" ]; then
   mkdir -p "/var/letsencrypt/live/$TC_DOMAIN"
   docker run --rm  -v /var/letsencrypt:/etc/letsencrypt -p 80:80 -ti certbot/certbot certonly \
-  --standalone --email $ADMIN_MAIL --agree-tos --preferred-challenges http -d $TC_DOMAIN
+  --standalone --email $ADMIN_MAIL --agree-tos --preferred-challenges http -d $TC_DOMAIN > /var/log/certbot.log
 fi
 
 if [ ! -d "/var/tekapo" ]; then
