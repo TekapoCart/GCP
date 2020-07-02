@@ -71,10 +71,10 @@ fi
 if [ ! -d "/var/tekapo" ]; then
   mkdir /var/tekapo
   git clone https://github.com/TekapoCart/docker_compose.git /var/tekapo  
-  sed -ie "s/TC_DOMAIN=ToBeDefined/TC_DOMAIN=$TC_DOMAIN/g" /var/tekapo/.env
-  sed -ie "s/ADMIN_MAIL=ToBeDefined/ADMIN_MAIL=$ADMIN_MAIL/g" /var/tekapo/.env
-  sed -ie "s/DB_PASSWD=ToBeDefined/DB_PASSWD=$DB_PASSWD/g" /var/tekapo/.env
-  sed -ie "s/DB_RT_PASSWD=ToBeDefined/DB_RT_PASSWD=$DB_RT_PASSWD/g" /var/tekapo/.env
+  sed -i "s/TC_DOMAIN=ToBeDefined/TC_DOMAIN=$TC_DOMAIN/g" /var/tekapo/.env
+  sed -i "s/ADMIN_MAIL=ToBeDefined/ADMIN_MAIL=$ADMIN_MAIL/g" /var/tekapo/.env
+  sed -i "s/DB_PASSWD=ToBeDefined/DB_PASSWD=$DB_PASSWD/g" /var/tekapo/.env
+  sed -i "s/DB_RT_PASSWD=ToBeDefined/DB_RT_PASSWD=$DB_RT_PASSWD/g" /var/tekapo/.env
 fi
 
 if [ ! -d "/var/volumes" ]; then
