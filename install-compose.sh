@@ -62,12 +62,6 @@ ADMIN_MAIL=$(curl http://metadata.google.internal/computeMetadata/v1/instance/at
 DB_PASSWD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/DB_PASSWD -H "Metadata-Flavor: Google")
 DB_RT_PASSWD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/attributes/DB_RT_PASSWD -H "Metadata-Flavor: Google")
 
-if [ ! -d "/var/letsencrypt/live/$TC_DOMAIN" ]; then
-  mkdir -p "/var/letsencrypt/live/$TC_DOMAIN"
-  docker run --rm  -v /var/letsencrypt:/etc/letsencrypt -p 80:80 -ti certbot/certbot certonly \
-  --standalone --email $ADMIN_MAIL --agree-tos --preferred-challenges http -d $TC_DOMAIN > /var/log/certbot.log
-fi
-
 if [ ! -d "/var/tekapo" ]; then
   mkdir /var/tekapo
   git clone https://github.com/TekapoCart/docker_compose.git /var/tekapo  
