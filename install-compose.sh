@@ -94,3 +94,21 @@ docker run --rm \
   -v "$PWD:$PWD" \
   -w="$PWD" \
   docker/compose:latest down'
+
+CHECK_INSTANCE=$(gcloud compute instances list | grep $NAME)
+if [ ${#CHECK_INSTANCE} -eq 0 ]; then	
+    exit
+fi
+
+# create snapshot
+gcloud beta compute resource-policies create snapshot-schedule $NAME-snapshot-schedule \
+    --max-retention-days 14 \
+    --start-time 14:00 \
+    --hourly-schedule 12 \
+    --on-source-disk-delete apply-retention-policy \
+    --region $REGION \
+    --storage-location asia
+
+gcloud beta compute disks add-resource-policies $NAME \
+    --resource-policies $NAME-snapshot-schedule \
+    --zone $ZONE
