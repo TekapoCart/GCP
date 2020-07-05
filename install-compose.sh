@@ -31,7 +31,7 @@ if [ -z "$EMAIL" ]; then
     exit 1;
 fi
 
-$DOMAIN_IP=$(dig $DOMAIN +short)
+DOMAIN_IP=$(dig $DOMAIN +short)
 if [ "$DOMAIN_IP" != "$IP" ]; then
     echo "前往網域管理平台，將商店網址指向 $IP"
     exit 1;
