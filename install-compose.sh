@@ -31,6 +31,12 @@ if [ -z "$EMAIL" ]; then
     exit 1;
 fi
 
+$DOMAIN_IP=$(dig $DOMAIN +short)
+if [ "$DOMAIN_IP" != "$IP" ]; then
+    echo "前往網域管理平台，將商店網址指向 $IP"
+    exit 1;
+fi
+
 DB_RT_PASSWD=$(openssl rand -base64 29 | tr -d "=+/" | cut -c1-16)
 DB_PASSWD=$(openssl rand -base64 29 | tr -d "=+/" | cut -c1-16)
 
