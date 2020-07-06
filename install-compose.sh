@@ -70,7 +70,8 @@ DB_RT_PASSWD=$(curl http://metadata.google.internal/computeMetadata/v1/instance/
 
 if [ ! -d "/var/tekapo" ]; then
   mkdir /var/tekapo
-  git clone https://github.com/TekapoCart/docker_compose.git /var/tekapo  
+  git clone https://github.com/TekapoCart/docker_compose.git /var/tekapo 
+  cp env.sample .env
   sed -i "s/TC_DOMAIN=ToBeDefined/TC_DOMAIN=$TC_DOMAIN/g" /var/tekapo/.env
   sed -i "s/ADMIN_MAIL=ToBeDefined/ADMIN_MAIL=$ADMIN_MAIL/g" /var/tekapo/.env
   sed -i "s/DB_PASSWD=ToBeDefined/DB_PASSWD=$DB_PASSWD/g" /var/tekapo/.env
